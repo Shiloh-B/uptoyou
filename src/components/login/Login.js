@@ -96,13 +96,6 @@ const Login = () => {
     });
   }
 
-  const handleSignOut = () => {
-    signOut(auth).then(() => {
-      // sign out success
-      navigate('/sign_in');
-    }).catch((err) => console.log(err));
-  }
-
   const handleFormChange = (e) => {
     let newUser = {...user};
 
