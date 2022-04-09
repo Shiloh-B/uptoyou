@@ -1,17 +1,21 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 
-const SignInForm = ({ handleSignIn, handleFormChange, errors }) => {
+const SignInForm = ({ handleSignIn, handleFormChange, errors, setErrors }) => {
 
   const navigate = useNavigate();
+
+  useEffect(() => {
+    setErrors({emailError: '', passwordError: ''});
+  }, []);
 
   const handleViewSwap = () => {
     navigate('/auth/sign_up');
   }
 
   return (
-    <div className='flex justify-center w-2/5 my-0 mx-auto'>
-      <form className='flex flex-col bg-white shadow-lg rounded px-3 py-3 my-5 justify-center bg-slate-100 w-full p-10' onSubmit={handleSignIn}>
+    <div className='flex justify-center w-full h-screen my-0 mx-auto bg-blue-400 items-center'>
+      <form className='flex flex-col shadow-lg rounded px-3 py-3 my-5 justify-center bg-slate-100 w-2/5 p-10' onSubmit={handleSignIn}>
         <h1 className='text-center text-6xl font-montserrat font-bold'>Up To You</h1>
         <div className='text-center my-3'>
           <h1 className='text-xl my-1'>Login To Your Account</h1>

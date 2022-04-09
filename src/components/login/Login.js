@@ -1,6 +1,6 @@
 import React, { useContext, useState, useEffect } from 'react';
 import { useNavigate, Routes, Route, useLocation } from 'react-router-dom';
-import UserContext from '../context/UserContext';
+import UserContext from '../../context/UserContext';
 import SignInForm from './SignInForm';
 import SignUpForm from './SignUpForm';
 import { getAuth, createUserWithEmailAndPassword, signInWithEmailAndPassword, updateProfile, signOut } from 'firebase/auth';
@@ -36,7 +36,7 @@ const Login = () => {
     signInWithEmailAndPassword(auth, user.email, user.password).then((userCredentials) => {
       // signed in success
       setUser(userCredentials.user);
-      console.log('yay');
+      navigate('/home');
     }).catch((err) => {
       switch(err.code) {
         case 'auth/invalid-email':
@@ -76,8 +76,8 @@ const Login = () => {
         displayName: user.username
       }).then(() => {
         setUser(auth.currentUser);
+        navigate('/home');
       });
-      console.log('yay but signed up');
     }).catch((err) => {
       switch(err.code) {
         case 'auth/email-already-in-use':
@@ -113,8 +113,8 @@ const Login = () => {
 
   return (
     <Routes>
-      <Route path='/sign_in' element={<SignInForm handleSignIn={handleSignIn} handleFormChange={handleFormChange} errors={errors} />} />
-      <Route path='/sign_up' element={<SignUpForm handleFormChange={handleFormChange} handleSignUp={handleSignUp} errors={errors} />} />
+      <Route path='/sign_in' element={<SignInForm handleSignIn={handleSignIn} handleFormChange={handleFormChange} errors={errors} setErrors={setErrors} />} />
+      <Route path='/sign_up' element={<SignUpForm handleFormChange={handleFormChange} handleSignUp={handleSignUp} errors={errors} setErrors={setErrors} />} />
     </Routes>
   );
 }
