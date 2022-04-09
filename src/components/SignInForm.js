@@ -1,7 +1,7 @@
 import React from 'react';
 import { useNavigate } from 'react-router-dom';
 
-const SignInForm = ({ handleSignIn, handleFormChange }) => {
+const SignInForm = ({ handleSignIn, handleFormChange, errors }) => {
 
   const navigate = useNavigate();
 
@@ -19,10 +19,12 @@ const SignInForm = ({ handleSignIn, handleFormChange }) => {
         <div className='flex flex-col my-0 mx-auto w-3/5 mb-2'>
           <label className='' htmlFor='email'>Email</label>
           <input className='shadow appearance-none border rounded leading-tight focus:outline-none focus:shadow-outline w-full p-1' type='text' name='email' onChange={handleFormChange} />
+          {errors.emailError !== '' ? <h1 className='text-red-500 text-bold'>{errors.emailError}</h1> : <></>}
         </div>
         <div className='flex flex-col my-0 mx-auto w-3/5 mb-3'>
           <label htmlFor='password'>Password</label>
           <input className='shadow appearance-none border rounded leading-tight focus:outline-none focus:shadow-outline w-full p-1'type='password' name='password' onChange={handleFormChange} />
+          {errors.passwordError !== '' ? <h1 className='text-red-500 text-bold'>{errors.passwordError}</h1> : <></>}
         </div>
         <div className='flex flex-row justify-center items-center my-1 mx-auto w-4/5'>
           <button className='bg-blue-500 hover:bg-blue-700 text-white font-bold w-1/5 py-2 px-2 mx-3 rounded' type='submit'>Sign In</button>

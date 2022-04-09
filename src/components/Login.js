@@ -10,6 +10,12 @@ const Login = () => {
   // global context
   const [user, setUser] = useContext(UserContext);
 
+  // state
+  const [errors, setErrors] = useState({
+    emailError: '',
+    passwordError: ''
+  });
+
   // hooks
   const auth = getAuth();
   const navigate = useNavigate();
@@ -23,19 +29,44 @@ const Login = () => {
 
   const handleSignIn = (e) => {
     e.preventDefault();
+
+    // clear the errors
+    setErrors({emailError: '', passwordError: ''});
+
     signInWithEmailAndPassword(auth, user.email, user.password).then((userCredentials) => {
       // signed in success
       setUser(userCredentials.user);
       console.log('yay');
-    }).catch((err) => console.log(err));
+    }).catch((err) => {
+      switch(err.code) {
+        case 'auth/invalid-email':
+          setErrors((errors) => ({...errors, emailError: err.message}));
+          break;
+        case 'auth/user-disabled':
+          setErrors((errors) => ({...errors, passwordError: err.message}));
+          break;
+        case 'auth/user-not-found':
+          setErrors((errors) => ({...errors, passwordError: err.message}));
+          break;
+        case 'auth/wrong-password':
+          setErrors((errors) => ({...errors, passwordError: err.message}));
+          break;
+        default: 
+          console.log(err.message); 
+          break;
+      }
+    });
   }
 
   const handleSignUp = (e) => {
     e.preventDefault();
 
+    // clear the errors
+    setErrors({emailError: '', passwordError: ''});
+
     // check if confirm pass === pass
     if(user.password !== user.confirmPassword) {
-      console.log('pass confirmation fail');
+      setErrors((errors) => ({...errors, passwordError: 'Passwords must match.'}));
       return;
     }
 
@@ -47,19 +78,29 @@ const Login = () => {
         setUser(auth.currentUser);
       });
       console.log('yay but signed up');
-    }).catch((err => console.log(err)));
+    }).catch((err) => {
+      switch(err.code) {
+        case 'auth/email-already-in-use':
+          setErrors((errors) => ({...errors, emailError: 'Email already in use.'}));
+          break;
+        case 'auth/invalid-email':
+          setErrors((errors) => ({...errors, emailError: 'Invalid email.'}));
+          break;
+        case 'auth/weak-password':
+          setErrors((errors) => ({...errors, passwordError: 'Password must be at least 6 characters.'}));
+          break;
+        default:
+          console.log(err.message); 
+          break;
+      }
+    });
   }
 
   const handleSignOut = () => {
     signOut(auth).then(() => {
       // sign out success
       navigate('/sign_in');
-    }).catch((err) => {
-      console.log(err);
-    })
-  }
-
-  const authListener = () => {
+    }).catch((err) => console.log(err));
   }
 
   const handleFormChange = (e) => {
@@ -72,8 +113,8 @@ const Login = () => {
 
   return (
     <Routes>
-      <Route path='/sign_in' element={<SignInForm handleSignIn={handleSignIn} handleFormChange={handleFormChange} />} />
-      <Route path='/sign_up' element={<SignUpForm handleFormChange={handleFormChange} handleSignUp={handleSignUp} />} />
+      <Route path='/sign_in' element={<SignInForm handleSignIn={handleSignIn} handleFormChange={handleFormChange} errors={errors} />} />
+      <Route path='/sign_up' element={<SignUpForm handleFormChange={handleFormChange} handleSignUp={handleSignUp} errors={errors} />} />
     </Routes>
   );
 }
