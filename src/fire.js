@@ -1,15 +1,4 @@
-import React from 'react';
-import ReactDOMClient from 'react-dom/client';
-import './index.css';
-import App from './App';
 import { initializeApp } from 'firebase/app';
-
-const container = document.getElementById('root');
-
-const root = ReactDOMClient.createRoot(container);
-
-root.render(<App />);
-
 
 const firebaseConfig = {
   apiKey: "AIzaSyCKG3GFiYG6uKvnBPQZp1_-Nsf43e8OgXA",
@@ -21,4 +10,6 @@ const firebaseConfig = {
   measurementId: "G-FRYWLCQYKE"
 };
 
-initializeApp(firebaseConfig);
+const app = initializeApp(firebaseConfig);
+
+export default app;
