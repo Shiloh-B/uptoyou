@@ -32,7 +32,7 @@ const SignInForm = ({ handleSignIn, handleFormChange, errors, setErrors }) => {
         </div>
         <div className='flex flex-row justify-center items-center my-1 mx-auto w-4/5'>
           <button className='bg-blue-500 hover:bg-blue-700 text-white font-bold w-1/5 py-2 px-2 mx-3 rounded' type='submit'>Sign In</button>
-          <h1 className='font-bold mx-3 cursor-pointer text-blue-500'>Forgot Password?</h1>
+          <h1 className='font-bold mx-3 cursor-pointer text-blue-500' onClick={() => navigate('/auth/reset_password')}>Forgot Password?</h1>
         </div>
         <div className='mt-4'>
           <h1 className='text-sm text-center text-gray-500'>Not a member? <span className='cursor-pointer text-blue-600' onClick={handleViewSwap}>Sign up here.</span></h1>

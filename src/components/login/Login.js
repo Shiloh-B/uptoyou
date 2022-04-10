@@ -3,7 +3,9 @@ import { useNavigate, Routes, Route, useLocation } from 'react-router-dom';
 import UserContext from '../../context/UserContext';
 import SignInForm from './SignInForm';
 import SignUpForm from './SignUpForm';
-import { getAuth, createUserWithEmailAndPassword, signInWithEmailAndPassword, updateProfile, signOut } from 'firebase/auth';
+import { getAuth, createUserWithEmailAndPassword, signInWithEmailAndPassword, updateProfile, sendPasswordResetEmail } from 'firebase/auth';
+import ForgotPasswordForm from './ForgotPasswordForm';
+import PasswordResetConfirmation from './PasswordResetConfirmation';
 
 const Login = () => {
   
@@ -96,6 +98,17 @@ const Login = () => {
     });
   }
 
+  const handlePasswordReset = (e) => {
+    e.preventDefault();
+    sendPasswordResetEmail(auth, user.email).then(() => {
+      navigate('/auth/reset_confirmation');
+      // email sent
+  
+    }).catch((err) => console.log(err));
+  }
+
+  
+
   const handleFormChange = (e) => {
     let newUser = {...user};
 
@@ -108,6 +121,8 @@ const Login = () => {
     <Routes>
       <Route path='/sign_in' element={<SignInForm handleSignIn={handleSignIn} handleFormChange={handleFormChange} errors={errors} setErrors={setErrors} />} />
       <Route path='/sign_up' element={<SignUpForm handleFormChange={handleFormChange} handleSignUp={handleSignUp} errors={errors} setErrors={setErrors} />} />
+      <Route path='/reset_password' element={<ForgotPasswordForm handlePasswordReset={handlePasswordReset} handleFormChange={handleFormChange} />} />
+      <Route path='/reset_confirmation' element={<PasswordResetConfirmation />} />
     </Routes>
   );
 }
