@@ -1,4 +1,4 @@
-import "./index.css";
+import "./build.css";
 import React, { useState } from 'react';
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import Login from './components/login/Login';

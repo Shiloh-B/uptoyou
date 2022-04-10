@@ -17,6 +17,7 @@ const Login = () => {
     emailError: '',
     passwordError: ''
   });
+  const [sendingRequest, setSendingRequest] = useState(false);
 
   // hooks
   const auth = getAuth();
@@ -100,7 +101,9 @@ const Login = () => {
 
   const handlePasswordReset = (e) => {
     e.preventDefault();
+    setSendingRequest(true);
     sendPasswordResetEmail(auth, user.email).then(() => {
+      setSendingRequest(false);
       navigate('/auth/reset_confirmation');
       // email sent
   
@@ -121,7 +124,7 @@ const Login = () => {
     <Routes>
       <Route path='/sign_in' element={<SignInForm handleSignIn={handleSignIn} handleFormChange={handleFormChange} errors={errors} setErrors={setErrors} />} />
       <Route path='/sign_up' element={<SignUpForm handleFormChange={handleFormChange} handleSignUp={handleSignUp} errors={errors} setErrors={setErrors} />} />
-      <Route path='/reset_password' element={<ForgotPasswordForm handlePasswordReset={handlePasswordReset} handleFormChange={handleFormChange} />} />
+      <Route path='/reset_password' element={<ForgotPasswordForm handlePasswordReset={handlePasswordReset} handleFormChange={handleFormChange} sendingRequest={sendingRequest} />} />
       <Route path='/reset_confirmation' element={<PasswordResetConfirmation />} />
     </Routes>
   );

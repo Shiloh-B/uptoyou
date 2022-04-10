@@ -1,7 +1,9 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
+import SmallLoadingSpinner from '../utility/SmallLoadingSpinner';
 
-const ForgotPasswordForm = ({ handlePasswordReset, handleFormChange }) => {
+const ForgotPasswordForm = ({ handlePasswordReset, handleFormChange, sendingRequest }) => {
+
 
   const navigate = useNavigate();
 
@@ -16,8 +18,11 @@ const ForgotPasswordForm = ({ handlePasswordReset, handleFormChange }) => {
           <label className='' htmlFor='email'>Email</label>
           <input className='shadow appearance-none border rounded leading-tight focus:outline-none focus:shadow-outline w-full p-1' type='text' name='email' required onChange={handleFormChange} />
         </div>
-        <div className='flex flex-row justify-center items-center my-1 mx-auto w-4/5'>
-          <button className='bg-blue-500 hover:bg-blue-700 text-white font-bold w-1/5 py-2 px-2 mx-3 rounded' type='submit'>Send Reset</button>
+        <div className='flex flex-row justify-center items-center my-1 mx-auto'>
+          <div className='bg-blue-500 w-full hover:bg-blue-700 font-bold py-2 px-4 mx-5 rounded text-white cursor-pointer flex justify-around items-center transition-all' onClick={handlePasswordReset}>
+            <h1>Send Request</h1>
+            {sendingRequest ? <SmallLoadingSpinner /> : <></>}
+          </div>
         </div>
         <div className='mt-4'>
           <h1 className='text-sm text-center text-gray-500'>Already a member? <span className='cursor-pointer text-blue-600' onClick={() => navigate('/auth/sign_in')}>Sign in here.</span></h1>
