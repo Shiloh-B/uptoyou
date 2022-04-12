@@ -14,7 +14,7 @@ const SignInForm = ({ handleSignIn, handleFormChange, errors, setErrors }) => {
   }
 
   return (
-    <div className='flex justify-center w-full h-screen my-0 mx-auto bg-blue-400 items-center'>
+    <div className='flex justify-center w-full h-screen my-0 mx-auto bg-blue-500 items-center'>
       <form className='flex flex-col shadow-lg rounded px-3 py-3 my-5 justify-center bg-slate-100 w-2/5 p-10' onSubmit={handleSignIn}>
         <h1 className='text-center text-6xl font-montserrat font-bold'>Up To You</h1>
         <div className='text-center my-3'>
@@ -31,7 +31,7 @@ const SignInForm = ({ handleSignIn, handleFormChange, errors, setErrors }) => {
           {errors.passwordError !== '' ? <h1 className='text-red-500 text-bold'>{errors.passwordError}</h1> : <></>}
         </div>
         <div className='flex flex-row justify-center items-center my-1 mx-auto w-4/5'>
-          <button className='bg-blue-500 hover:bg-blue-700 text-white font-bold w-1/5 py-2 px-2 mx-3 rounded' type='submit'>Sign In</button>
+          <button className='bg-blue-500 hover:bg-blue-700 text-white font-bold w-1/5 py-2 px-2 mx-3 rounded transition-colors' type='submit'>Sign In</button>
           <h1 className='font-bold mx-3 cursor-pointer text-blue-500' onClick={() => navigate('/auth/reset_password')}>Forgot Password?</h1>
         </div>
         <div className='mt-4'>

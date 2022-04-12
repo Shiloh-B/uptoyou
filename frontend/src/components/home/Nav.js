@@ -23,16 +23,16 @@ const Nav = () => {
   }
 
   return (
-    <nav className='flex items-center justify-between flex-wrap bg-blue-500 p-6'>
-      <div className='flex items-center flex-shrink-0 text-white mr-6'>
+    <nav className='flex items-center justify-between flex-wrap bg-slate-50 p-6'>
+      <div className='flex items-center flex-shrink-0 text-blue-500 mr-6'>
         <Link className='font-bold text-2xl tracking-tight' to='/home'>Up To You!</Link>
       </div>
       <div className='w-full block flex-grow lg:flex lg:items-center lg:w-auto'>
-        <Link className='block mt-4 lg:inline-block lg:mt-0 text-blue-200 hover:text-white mr-4 transition-colors' to='/home'>Account</Link>
-        <Link className='block mt-4 lg:inline-block lg:mt-0 text-blue-200 hover:text-white mr-4 transition-colors' to='/home'>Friends</Link>
+        <Link className='block mt-4 lg:inline-block lg:mt-0 text-black hover:text-blue-500 mr-4 transition-colors' to='/home'>Account</Link>
+        <Link className='block mt-4 lg:inline-block lg:mt-0 text-black hover:text-blue-500 mr-4 transition-colors' to='/home'>Friends</Link>
       </div>
       <div>
-        <button className='inline-block text-sm px-4 py-2 leading-none rounded border-blue-300 border-2 text-white hover:border-white hover:bg-white hover:text-blue-500 transition-colors' onClick={handleSignOut}>Log Out</button>
+        <button className='inline-block text-sm px-4 py-2 leading-none rounded bg-blue-500 text-white hover:bg-blue-700 hover:text-white transition-colors' onClick={handleSignOut}>Log Out</button>
       </div>
     </nav>
   )

@@ -8,7 +8,7 @@ const ForgotPasswordForm = ({ handlePasswordReset, handleFormChange, sendingRequ
   const navigate = useNavigate();
 
   return (
-    <div className='flex justify-center w-full h-screen my-0 mx-auto bg-blue-400 items-center'>
+    <div className='flex justify-center w-full h-screen my-0 mx-auto bg-blue-500 items-center'>
       <form className='flex flex-col  shadow-lg rounded px-3 py-3 my-5 justify-center bg-slate-100 w-2/5 p-10' onSubmit={handlePasswordReset}>
         <h1 className='text-center text-6xl font-montserrat font-bold'>Up To You</h1>
         <div className='text-center my-3'>

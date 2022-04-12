@@ -39,20 +39,23 @@ const Login = () => {
     signInWithEmailAndPassword(auth, user.email, user.password).then((userCredentials) => {
       // signed in success
       setUser(userCredentials.user);
+
+      // get initial data here
+
       navigate('/home');
     }).catch((err) => {
       switch(err.code) {
         case 'auth/invalid-email':
-          setErrors((errors) => ({...errors, emailError: err.message}));
+          setErrors((errors) => ({...errors, passwordError: 'Wrong username or password.'}));
           break;
         case 'auth/user-disabled':
-          setErrors((errors) => ({...errors, passwordError: err.message}));
+          setErrors((errors) => ({...errors, passwordError: 'Wrong username or password.'}));
           break;
         case 'auth/user-not-found':
-          setErrors((errors) => ({...errors, passwordError: err.message}));
+          setErrors((errors) => ({...errors, passwordError: 'Wrong username or password.'}));
           break;
         case 'auth/wrong-password':
-          setErrors((errors) => ({...errors, passwordError: err.message}));
+          setErrors((errors) => ({...errors, passwordError: 'Wrong username or password.'}));
           break;
         default: 
           console.log(err.message); 
