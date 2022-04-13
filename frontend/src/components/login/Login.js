@@ -3,7 +3,6 @@ import { useNavigate, Routes, Route, useLocation } from 'react-router-dom';
 import UserContext from '../../context/UserContext';
 import SignInForm from './SignInForm';
 import SignUpForm from './SignUpForm';
-import { getAuth, createUserWithEmailAndPassword, signInWithEmailAndPassword, updateProfile, sendPasswordResetEmail } from 'firebase/auth';
 import ForgotPasswordForm from './ForgotPasswordForm';
 import PasswordResetConfirmation from './PasswordResetConfirmation';
 
@@ -20,7 +19,6 @@ const Login = () => {
   const [sendingRequest, setSendingRequest] = useState(false);
 
   // hooks
-  const auth = getAuth();
   const navigate = useNavigate();
   const { pathname } = useLocation();
 
@@ -36,32 +34,24 @@ const Login = () => {
     // clear the errors
     setErrors({emailError: '', passwordError: ''});
 
-    signInWithEmailAndPassword(auth, user.email, user.password).then((userCredentials) => {
-      // signed in success
-      setUser(userCredentials.user);
-
-      // get initial data here
-
-      navigate('/home');
-    }).catch((err) => {
-      switch(err.code) {
-        case 'auth/invalid-email':
-          setErrors((errors) => ({...errors, passwordError: 'Wrong username or password.'}));
-          break;
-        case 'auth/user-disabled':
-          setErrors((errors) => ({...errors, passwordError: 'Wrong username or password.'}));
-          break;
-        case 'auth/user-not-found':
-          setErrors((errors) => ({...errors, passwordError: 'Wrong username or password.'}));
-          break;
-        case 'auth/wrong-password':
-          setErrors((errors) => ({...errors, passwordError: 'Wrong username or password.'}));
-          break;
-        default: 
-          console.log(err.message); 
-          break;
+    fetch("http://localhost:3000/auth/sign_in", {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify({
+        email: user.email,
+        password: user.password
+      }),
+    }).then((res) => {
+      return res.json();
+    }).then((data) => {
+      if(data.uid) {
+        setUser((user) => ({...user, uid: data.uid}));
+        navigate('/home');
       }
-    });
+      setErrors({passwordError: "Wrong username or password."})
+    }).catch(err => console.log(err));
   }
 
   const handleSignUp = (e) => {
@@ -76,27 +66,32 @@ const Login = () => {
       return;
     }
 
-    createUserWithEmailAndPassword(auth, user.email, user.password)
-    .then(() => {
-      updateProfile(auth.currentUser, {
-        displayName: user.username
-      }).then(() => {
-        setUser(auth.currentUser);
+    // new
+    fetch("http://localhost:3000/auth/sign_up", {
+      method: 'POST',
+      body: JSON.stringify({
+        email: user.email,
+        password: user.password
+      }),
+      headers: {
+        'Content-Type': 'application/json'
+      }
+    }).then((res) => {
+      return res.json()
+    }).then((data) => {
+      if(data.uid) {
+        setUser((user) => ({email: user.email, uid: data.uid}));
         navigate('/home');
-      });
-    }).catch((err) => {
-      switch(err.code) {
-        case 'auth/email-already-in-use':
-          setErrors((errors) => ({...errors, emailError: 'Email already in use.'}));
+      }
+
+      switch(data.message) {
+        case 'WEAK_PASSWORD : Password should be at least 6 characters':
+          setErrors({passwordError: 'Password must be at least 6 characters.'});
           break;
-        case 'auth/invalid-email':
-          setErrors((errors) => ({...errors, emailError: 'Invalid email.'}));
-          break;
-        case 'auth/weak-password':
-          setErrors((errors) => ({...errors, passwordError: 'Password must be at least 6 characters.'}));
+        case 'EMAIL_EXISTS':
+          setErrors({emailError: 'Email already in use.'});
           break;
         default:
-          console.log(err.message); 
           break;
       }
     });
@@ -105,12 +100,21 @@ const Login = () => {
   const handlePasswordReset = (e) => {
     e.preventDefault();
     setSendingRequest(true);
-    sendPasswordResetEmail(auth, user.email).then(() => {
+
+    fetch('http://localhost:3000/auth/reset_password', {
+      method: 'POST',
+      body: JSON.stringify({
+        email: user.email
+      }),
+      headers: {
+        'Content-Type': 'application/json'
+      }
+    }).then((res) => {
       setSendingRequest(false);
+      return res.json()
+    }).then((data) => {
       navigate('/auth/reset_confirmation');
-      // email sent
-  
-    }).catch((err) => console.log(err));
+    }).catch(err => console.log(err));
   }
 
   
