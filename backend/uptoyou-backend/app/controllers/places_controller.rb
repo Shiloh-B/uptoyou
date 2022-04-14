@@ -22,4 +22,20 @@ class PlacesController < ApplicationController
     render json:res.to_json
   end
 
+  def eats_photo
+    @options = {
+      headers: {
+        "Content-Type": "application/json"
+      }
+    }
+
+    res = HTTParty.get("https://maps.googleapis.com/maps/api/place/photo?photo_reference=#{params["photo_url"]}&maxheight=400&maxwidth=400&key=#{ENV["PLACES_API_KEY"]}", @options)
+
+    img = Base64.strict_encode64(res)
+
+    image_url = "data:image/jpeg;base64," + img
+
+    render json:image_url.to_json
+  end
+
 end

@@ -12,4 +12,5 @@ Rails.application.routes.draw do
 
   # places routes
   post "/places/nearby_eats", to: "places#nearby_eats"
+  post "/places/eats_photo", to: "places#eats_photo"
 end
