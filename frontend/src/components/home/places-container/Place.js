@@ -1,12 +1,17 @@
-import React, { useEffect, useState } from 'react'
+import React, { useEffect, useState } from 'react';
+import PrimaryButton from '../../utility/PrimaryButton';
+import DangerButton from '../../utility/DangerButton';
+import { useNavigate } from 'react-router-dom'
 
-const Place = ({ place }) => {
+const Place = ({ place, nextPlaceHandler }) => {
 
   const [photo, setPhoto] = useState("");
 
+  const navigate = useNavigate();
+
   useEffect(() => {
+    
     if(place.photos?.[0]) {
-      console.log(place.photos[0]);
 
       let reqBody = JSON.stringify({photo_url: place.photos?.[0].photo_reference});
 
@@ -22,16 +27,23 @@ const Place = ({ place }) => {
         setPhoto(data);
       }).catch(err => console.log(err));
     }
-  }, []);
+  }, [place]);
 
-  if(place.business_status === "OPERATIONAL" && !place.types.includes("gas_station")) {
+  if(place.business_status === "OPERATIONAL") {
     return (
-      <div className='flex flex-col mx-3 bg-blue-500 rounded text-white p-5'>
+      <div className='flex flex-col mx-auto rounded text-blue-500 p-5'>
         <div className=''>
-          <h1 className='text-md text-center'>{place.name}</h1>
+          <h1 className='text-3xl text-center font-bold'>{place.name}</h1>
         </div>
         <div>
-          <img src={photo} />
+          <img src={photo} className='rounded my-5 mx-auto shadow-outline shadow-md' />
+        </div>
+        <div className='my-1 mx-auto w-full text-center'>
+          <PrimaryButton name={'Yay'} handleClick={nextPlaceHandler} />
+          <DangerButton name={'Nay'} handleClick={nextPlaceHandler} />
+        </div>
+        <div className='my-1 mx-auto text-center w-full'>
+          <PrimaryButton name={'Home'} handleClick={() => navigate('/home/landing')} />
         </div>
       </div>
     )

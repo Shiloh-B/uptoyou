@@ -21,7 +21,7 @@ function App() {
           <Routes>
             <Route path='*' element={<RouteNotFound />} />
             <Route path='/auth/*' element={<Login />} />
-            <Route path='/home' element={<Home />} />
+            <Route path='/home/*' element={<Home />} />
           </Routes>
         </Router>
       </UserContext.Provider>

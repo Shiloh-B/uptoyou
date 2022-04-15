@@ -29,7 +29,7 @@ class PlacesController < ApplicationController
       }
     }
 
-    res = HTTParty.get("https://maps.googleapis.com/maps/api/place/photo?photo_reference=#{params["photo_url"]}&maxheight=400&maxwidth=400&key=#{ENV["PLACES_API_KEY"]}", @options)
+    res = HTTParty.get("https://maps.googleapis.com/maps/api/place/photo?photo_reference=#{params["photo_url"]}&maxheight=500&maxwidth=500&key=#{ENV["PLACES_API_KEY"]}", @options)
 
     img = Base64.strict_encode64(res)
 

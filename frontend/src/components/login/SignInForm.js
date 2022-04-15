@@ -1,7 +1,8 @@
 import React, { useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
+import SmallLoadingSpinner from '../utility/SmallLoadingSpinner';
 
-const SignInForm = ({ handleSignIn, handleFormChange, errors, setErrors }) => {
+const SignInForm = ({ handleSignIn, handleFormChange, errors, setErrors, sendingRequest }) => {
 
   const navigate = useNavigate();
 
@@ -31,7 +32,7 @@ const SignInForm = ({ handleSignIn, handleFormChange, errors, setErrors }) => {
           {errors.passwordError !== '' ? <h1 className='text-red-500 text-bold'>{errors.passwordError}</h1> : <></>}
         </div>
         <div className='flex flex-row justify-center items-center my-1 mx-auto w-4/5'>
-          <button className='bg-blue-500 hover:bg-blue-700 text-white font-bold w-1/5 py-2 px-2 mx-3 rounded transition-colors' type='submit'>Sign In</button>
+          <button className='bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 mx-3 rounded transition-colors flex justify-center items-center' type='submit'>Sign In <span>{sendingRequest ? <SmallLoadingSpinner /> : <></>}</span></button>
           <h1 className='font-bold mx-3 cursor-pointer text-blue-500' onClick={() => navigate('/auth/reset_password')}>Forgot Password?</h1>
         </div>
         <div className='mt-4'>

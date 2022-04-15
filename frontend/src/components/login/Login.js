@@ -34,6 +34,8 @@ const Login = () => {
     // clear the errors
     setErrors({emailError: '', passwordError: ''});
 
+    setSendingRequest(true);
+
     fetch("http://localhost:3000/auth/sign_in", {
       method: 'POST',
       headers: {
@@ -44,11 +46,12 @@ const Login = () => {
         password: user.password
       }),
     }).then((res) => {
+      setSendingRequest(false);
       return res.json();
     }).then((data) => {
       if(data.uid) {
         setUser((user) => ({...user, uid: data.uid}));
-        navigate('/home');
+        navigate('/home/landing');
       }
       setErrors({passwordError: "Wrong username or password."})
     }).catch(err => console.log(err));
@@ -59,6 +62,8 @@ const Login = () => {
 
     // clear the errors
     setErrors({emailError: '', passwordError: ''});
+
+    setSendingRequest(true);
 
     // check if confirm pass === pass
     if(user.password !== user.confirmPassword) {
@@ -77,11 +82,12 @@ const Login = () => {
         'Content-Type': 'application/json'
       }
     }).then((res) => {
+      setSendingRequest(false);
       return res.json()
     }).then((data) => {
       if(data.uid) {
         setUser((user) => ({email: user.email, uid: data.uid}));
-        navigate('/home');
+        navigate('/home/landing');
       }
 
       switch(data.message) {
@@ -129,8 +135,8 @@ const Login = () => {
 
   return (
     <Routes>
-      <Route path='/sign_in' element={<SignInForm handleSignIn={handleSignIn} handleFormChange={handleFormChange} errors={errors} setErrors={setErrors} />} />
-      <Route path='/sign_up' element={<SignUpForm handleFormChange={handleFormChange} handleSignUp={handleSignUp} errors={errors} setErrors={setErrors} />} />
+      <Route path='/sign_in' element={<SignInForm handleSignIn={handleSignIn} handleFormChange={handleFormChange} errors={errors} sendingRequest={sendingRequest} setErrors={setErrors} />} />
+      <Route path='/sign_up' element={<SignUpForm handleFormChange={handleFormChange} handleSignUp={handleSignUp} errors={errors} sendingRequest={sendingRequest} setErrors={setErrors} />} />
       <Route path='/reset_password' element={<ForgotPasswordForm handlePasswordReset={handlePasswordReset} handleFormChange={handleFormChange} sendingRequest={sendingRequest} />} />
       <Route path='/reset_confirmation' element={<PasswordResetConfirmation />} />
     </Routes>

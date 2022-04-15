@@ -1,7 +1,8 @@
 import React, { useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
+import SmallLoadingSpinner from '../utility/SmallLoadingSpinner';
 
-const SignUpForm = ({ handleSignUp, handleFormChange, errors, setErrors }) => {
+const SignUpForm = ({ handleSignUp, handleFormChange, errors, setErrors, sendingRequest }) => {
 
   const navigate = useNavigate();
 
@@ -39,7 +40,7 @@ const SignUpForm = ({ handleSignUp, handleFormChange, errors, setErrors }) => {
           <input className='shadow appearance-none border rounded leading-tight focus:outline-none focus:shadow-outline w-full p-1'type='password' name='confirmPassword' required onChange={handleFormChange} />
         </div>
         <div className='flex flex-row justify-center items-center my-1 mx-auto w-4/5'>
-          <button className='bg-blue-500 hover:bg-blue-700 text-white font-bold w-1/5 py-2 px-2 mx-3 rounded transition-colors' type='submit'>Sign Up</button>
+        <button className='bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 mx-3 rounded transition-colors flex justify-center items-center' type='submit'>Sign In <span>{sendingRequest ? <SmallLoadingSpinner /> : <></>}</span></button>
         </div>
         <div className='mt-4'>
           <h1 className='text-sm text-center text-gray-500'>Already a member? <span className='cursor-pointer text-blue-600' onClick={handleViewSwap}>Sign in here.</span></h1>
